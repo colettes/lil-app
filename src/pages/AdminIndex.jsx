@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Admin extends Component {
+class AdminIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -24,7 +24,6 @@ class Admin extends Component {
         .then((res) => {
           this.loadData();
         });
-      
     }
   }
 
@@ -32,17 +31,18 @@ class Admin extends Component {
     const { items } = this.state;
 
     return (
-      <div className="Admin Page">
+      <div className="AdminIndex Page">
+        <a href='/admin/items/new'>Add Item</a>
         <ol>
           {!items && <li>loading</li>}
           {items &&
             items.map(item => (
               <li key={item.id}>
                 {item.title}
-                <div className="Admin-image">
+                <div className="AdminIndex-image">
                   <img src={item.image_url} alt={item.description} />
                 </div>
-                <div className="Admin-button">
+                <div className="AdminIndex-button">
                   <button onClick={() => this.deleteItem(item.id)}>Delete</button>
                 </div>
               </li>
@@ -53,4 +53,4 @@ class Admin extends Component {
   }
 }
 
-export default Admin;
+export default AdminIndex;

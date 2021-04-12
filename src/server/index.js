@@ -4,7 +4,10 @@ const app = express();
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('db/app.db')
 
+const uuid = require('uuid');
+
 const port = 3001;
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -25,6 +28,16 @@ app.delete('/items/:id', (req, res) => {
     db.run(sql, params, function(error) {
         if (error) throw error;
         res.json({lastID: this.lastID, changes: this.changes})
+    });
+});
+
+app.post('/items', (req, res) => {
+    const id = uuid.v4();
+    const params = {$id: id, $title: req.body.title, $description: req.body.description, $url: req.body.url};
+    const sql = "INSERT INTO items (id, title, description, image_url) VALUES ($id, $title, $description, $url)";
+    db.run(sql, params, function(error) {
+        if (error) throw error;
+        res.json({params})
     });
 });
 
