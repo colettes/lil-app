@@ -7,7 +7,7 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:3001/items')
+        fetch('http://localhost:3000/items')
             .then((res) => res.json())
             .then((json) => this.setState(json));
     }
@@ -16,12 +16,12 @@ class Main extends Component {
         const { items } = this.state;
 
         return (
-            <div className="Main">
+            <div className="Main Page">
                 <h1>Lil App</h1>
                 <ol>
                     {!items && <li>loading</li>}
                     {items && items.map( (item) => (
-                    <li>{item.title}<br/>
+                    <li key={item.id}>{item.title}<br/>
                         <img src={item.image_url} alt={item.description}/>
                     </li>))}
                 </ol>

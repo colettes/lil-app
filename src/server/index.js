@@ -6,12 +6,6 @@ const db = new sqlite3.Database('db/app.db')
 
 const port = 3001;
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
@@ -23,6 +17,15 @@ app.get('/items', (req, res) => {
         const result = {items: rows};
         res.json(result);
     });  
+});
+
+app.delete('/items/:id', (req, res) => {
+    const params = {$id: req.params.id}
+    const sql = "DELETE FROM items WHERE id=$id";
+    db.run(sql, params, function(error) {
+        if (error) throw error;
+        res.json({lastID: this.lastID, changes: this.changes})
+    });
 });
 
 app.listen(port, () => {
