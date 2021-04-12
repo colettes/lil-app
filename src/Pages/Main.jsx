@@ -16,16 +16,19 @@ class Main extends Component {
         const { items } = this.state;
 
         return (
-            <div>
+            <div className="Main">
                 <h1>Lil App</h1>
                 <ol>
                     {!items && <li>loading</li>}
-                    {items && items.map( (item) => (<li>{item.title}</li>))}
+                    {items && items.map( (item) => (
+                    <li>{item.title}<br/>
+                        <img src={item.image_url} alt={item.description}/>
+                    </li>))}
                 </ol>
                 <pre>{JSON.stringify(this.state, null, 2)}</pre>
             </div>
-        )
-    }
+        );
+    };
 }
 
 export default Main;
