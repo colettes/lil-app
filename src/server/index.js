@@ -17,14 +17,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/items', (req, res) => {
-    const sql = 'SELECT * FROM items';
+    const sql = 'SELECT * FROM items LIMIT 10';
     db.all(sql, (error, rows) => {
         if (error) throw error;
         const result = {items: rows};
         res.json(result);
-    });
-    
-    
+    });  
 });
 
 app.listen(port, () => {
