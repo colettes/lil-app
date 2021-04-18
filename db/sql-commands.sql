@@ -41,13 +41,13 @@
 --     'role' TEXT DEFAULT 'member'
 -- );
 
-INSERT INTO users VALUES (
-    '3b63130f-a49b-4556-9373-2abe2b62dd7a',
-    'colettesmith',
-    'colette@gmail.com',
-    '$2y$10$L6rmaXPYadstY5wqhO64A.KT.Qy6apu/T2vINtXKcGHHJswSYc6.q',
-    'admin'
-);
+-- INSERT INTO users VALUES (
+--     '3b63130f-a49b-4556-9373-2abe2b62dd7a',
+--     'colettesmith',
+--     'colette@gmail.com',
+--     '$2y$10$L6rmaXPYadstY5wqhO64A.KT.Qy6apu/T2vINtXKcGHHJswSYc6.q',
+--     'admin'
+-- );
 
 -- CREATE TABLE favorites (
 --     id TEXT PRIMARY KEY,
@@ -60,3 +60,9 @@ INSERT INTO users VALUES (
 --     '3b63130f-a49b-4556-9373-2abe2b62dd7a',
 --     '11a336f6-d875-442e-8220-b08dd976f793'
 -- );
+
+INSERT INTO favorites VALUES (
+    'c020b7a0-b4d1-4066-b543-f2e6f89c200f',
+    '2370aac8-c856-426b-86d1-84d97939df22',
+    '4552794f-db53-40be-a39d-6cc09cd37fe9'
+);
