@@ -25,6 +25,11 @@ app.post('/items', (req, res) => {
     model.createItem(req, req, db);
 });
 
+app.put('/items/:id', (req, res) => {
+    console.log(req.params);
+    res.json({});
+});
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
