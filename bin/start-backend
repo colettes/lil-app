@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-nodemon src/server/index.js
+nodemon -r esm src/server/index.js
