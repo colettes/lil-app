@@ -15,10 +15,19 @@ app.get('/', (req, res) => {
 
 app.get('/items', (req, res) => {
     const sql = 'SELECT * FROM items LIMIT 10';
-    db.all(sql, (error, rows) => {
+    db.all(sql, (error, items) => {
         if (error) throw error;
-        const result = {items: rows};
-        res.json(result);
+        const sql2 = 'SELECT * FROM favorites';
+        db.all(sql2, (error, favorites) => {
+            if (error) throw error;
+            const newItems = items.map( (item) => {
+                const favorite = favorites.find( (favorite) => favorite.item_id === item.id);
+                const favorited = Boolean(favorite);
+                return Object.assign({}, item, {favorited});
+            });
+            const result = {items: newItems};
+            res.json(result);
+        });
     });  
 });
 
