@@ -1,6 +1,5 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
-const uuid = require('uuid');
 const model = require('./model.js')
 
 const app = express();
@@ -22,12 +21,11 @@ app.delete('/items/:id', (req, res) => {
 });
 
 app.post('/items', (req, res) => {
-    model.createItem(req, req, db);
+    model.createItem(req, res, db);
 });
 
 app.put('/items/:id', (req, res) => {
-    console.log(req.params);
-    res.json({});
+    model.updateItem(req, res, db);
 });
 
 app.listen(port, () => {
