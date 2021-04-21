@@ -45,17 +45,30 @@ export const createItem = (req, res, db) => {
 }
 
 export const updateItem = (req, res, db) => {
+    const { favorited } = req.body;
     const id = uuid.v4();
-    const params = {
-        $id: id,
-        $user_id: userID,
-        $item_id: req.params.id
+    if (favorited) {
+        const params = {
+            $id: id,
+            $user_id: userID,
+            $item_id: req.params.id
+        };
+        const sql = "INSERT INTO favorites (id, user_id, item_id) VALUES ($id, $user_id, $item_id)";
+        db.run(sql, params, function(error) {
+            if (error && error.code !== 'SQLITE_CONSTRAINT') {
+                throw error; 
+            }
+            res.json({});
+        });
+    } else {
+        const params = {
+            $user_id: userID,
+            $item_id: req.params.id
+        };
+        const sql = "DELETE FROM favorites WHERE item_id = $item_id AND user_id = $user_id";
+        db.run(sql, params, function(error) {
+            if (error) throw error;
+            res.json({});
+        });
     };
-    const sql = "INSERT INTO favorites (id, user_id, item_id) VALUES ($id, $user_id, $item_id)";
-    db.run(sql, params, function(error) {
-        if (error && error.code !== 'SQLITE_CONSTRAINT') {
-            throw error; 
-        }
-        res.json({});
-    });
 }
