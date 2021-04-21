@@ -72,3 +72,12 @@ export const updateItem = (req, res, db) => {
         });
     };
 }
+
+export const getFavorites = (req, res, db) => {
+    const params = { $user_id: userID }
+    const sql = "SELECT * FROM favorites WHERE user_id = $user_id LIMIT 10";
+    db.all(sql, params, function(error, favorites) {
+        if (error) throw error;
+        res.json({favorites});
+    });
+}

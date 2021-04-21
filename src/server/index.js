@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/items', (req, res) => {
-    model.getItems(db, (result) => res.json(result));
+    model.getItems(db, (result) => res.json(result)); //decouples model from express library
 });
 
 app.delete('/items/:id', (req, res) => {
@@ -26,6 +26,10 @@ app.post('/items', (req, res) => {
 
 app.put('/items/:id', (req, res) => {
     model.updateItem(req, res, db);
+});
+
+app.get('/favorites', (req, res) => {
+    model.getFavorites(req, res, db);
 });
 
 app.listen(port, () => {
