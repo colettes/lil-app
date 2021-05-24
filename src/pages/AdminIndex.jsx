@@ -27,6 +27,11 @@ class AdminIndex extends Component {
     }
   }
 
+  editItem(itemID) {
+    this.props.history.push('/admin/items/' + itemID + '/edit');
+    console.log(this.props.history);
+  }
+
   render() {
     const { items } = this.state;
 
@@ -43,6 +48,7 @@ class AdminIndex extends Component {
                   <img src={item.image_url} alt={item.description} />
                 </div>
                 <div className="AdminIndex-button">
+                  <button onClick={() => this.editItem(item.id)}>Edit</button>
                   <button onClick={() => this.deleteItem(item.id)}>Delete</button>
                 </div>
               </li>

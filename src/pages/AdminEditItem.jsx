@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class AdminNewItem extends Component {
+class AdminEditItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,11 +46,11 @@ class AdminNewItem extends Component {
                         <input type="text" value={form.url} placeholder="Image URL" onChange={(e) => this.updateFormState('url', e)} />
                     </div>
                     <div>
-                        <input type="submit" value="Create" />
+                        <input type="submit" value="Update" />
                     </div>
                 </form>
             </div>
         );
     }
 }
-export default AdminNewItem;
+export default AdminEditItem;

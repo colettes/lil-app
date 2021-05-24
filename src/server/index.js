@@ -16,6 +16,10 @@ app.get('/items', (req, res) => {
     model.getItems(db, (result) => res.json(result)); //decouples model from express library
 });
 
+app.get('/items/:id', (req, res) => {
+    model.getItem(req, res, db);
+});
+
 app.delete('/items/:id', (req, res) => {
     model.deleteItem(req, res, db);
 });
