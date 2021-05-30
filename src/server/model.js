@@ -83,6 +83,20 @@ export const updateItem = (req, res, db) => {
     };
 }
 
+export const updateItem2 = (req, res, db) => {
+    const params = {
+        $id: req.params.id,
+        $title: req.body.title,
+        $description: req.body.description,
+        $image_url: req.body.url
+    };
+    const sql = "UPDATE items SET title = $title, description = $description, image_url = $image_url WHERE id = $id";
+    db.run(sql, params, function(error) {
+        if (error) throw error;
+        res.json({});
+    });
+}
+
 export const getFavorites = (req, res, db) => {
     const params = { $user_id: userID }
     const sql = "SELECT * FROM favorites WHERE user_id = $user_id LIMIT 10";

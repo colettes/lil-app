@@ -11,7 +11,7 @@ class AdminIndex extends Component {
   }
 
   loadData() {
-    let response = fetch('http://localhost:3000/items');
+    let response = fetch('/items');
     response = response.then((res) => res.json());
     response = response.then((json) => this.setState(json));
   }
@@ -20,7 +20,7 @@ class AdminIndex extends Component {
     const confirmed = window.confirm('Are you sure you want to delete this item?');
     if (confirmed) {
       const options = {method: 'delete'}
-      fetch('http://localhost:3000/items/' + itemID, options)
+      fetch('/items/' + itemID, options)
         .then((res) => {
           this.loadData();
         });
@@ -29,7 +29,6 @@ class AdminIndex extends Component {
 
   editItem(itemID) {
     this.props.history.push('/admin/items/' + itemID + '/edit');
-    console.log(this.props.history);
   }
 
   render() {
