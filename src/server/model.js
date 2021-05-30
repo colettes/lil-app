@@ -55,35 +55,6 @@ export const createItem = (req, res, db) => {
 }
 
 export const updateItem = (req, res, db) => {
-    const { favorited } = req.body;
-    const id = uuid.v4();
-    if (favorited) {
-        const params = {
-            $id: id,
-            $user_id: userID,
-            $item_id: req.params.id
-        };
-        const sql = "INSERT INTO favorites (id, user_id, item_id) VALUES ($id, $user_id, $item_id)";
-        db.run(sql, params, function(error) {
-            if (error && error.code !== 'SQLITE_CONSTRAINT') {
-                throw error; 
-            }
-            res.json({});
-        });
-    } else {
-        const params = {
-            $user_id: userID,
-            $item_id: req.params.id
-        };
-        const sql = "DELETE FROM favorites WHERE item_id = $item_id AND user_id = $user_id";
-        db.run(sql, params, function(error) {
-            if (error) throw error;
-            res.json({});
-        });
-    };
-}
-
-export const updateItem2 = (req, res, db) => {
     const params = {
         $id: req.params.id,
         $title: req.body.title,
@@ -103,5 +74,33 @@ export const getFavorites = (req, res, db) => {
     db.all(sql, params, function(error, favorites) {
         if (error) throw error;
         res.json({favorites});
+    });
+}
+
+export const createFavorite = (req, res, db) => {
+    const id = uuid.v4();
+    const params = {
+        $id: id,
+        $user_id: userID,
+        $item_id: req.body.itemID
+    };
+    const sql = "INSERT INTO favorites (id, user_id, item_id) VALUES ($id, $user_id, $item_id)";
+    db.run(sql, params, function(error) {
+        if (error && error.code !== 'SQLITE_CONSTRAINT') {
+            throw error; 
+        }
+        res.json({});
+    });
+}
+
+export const deleteFavorite = (req, res, db) => { 
+    const params = {
+        $user_id: userID,
+        $item_id: req.body.itemID
+    };
+    const sql = "DELETE FROM favorites WHERE item_id = $item_id AND user_id = $user_id";
+    db.run(sql, params, function(error) {
+        if (error) throw error;
+        res.json({});
     });
 }

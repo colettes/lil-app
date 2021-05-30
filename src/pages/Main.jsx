@@ -18,15 +18,17 @@ class Main extends Component {
 
     favoriteItem(itemID, favorited) {
         const options = {
-            method: 'PUT',
-            headers: { 
+            method: favorited ? 'DELETE' : 'POST',
+            headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ "favorited": !favorited })
+            body: JSON.stringify({itemID})
         };
-        fetch('/items/' + itemID, options)
+        fetch('/favorites', options)
             .then(() => this.loadData());
+
+
     }
 
     render() {

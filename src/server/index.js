@@ -32,12 +32,16 @@ app.put('/items/:id', (req, res) => {
     model.updateItem(req, res, db);
 });
 
-app.put('/items2/:id', (req, res) => {
-    model.updateItem2(req, res, db);
-});
-
 app.get('/favorites', (req, res) => {
     model.getFavorites(req, res, db);
+});
+
+app.post('/favorites', (req, res) => {
+    model.createFavorite(req, res, db);
+});
+
+app.delete('/favorites', (req, res) => {
+    model.deleteFavorite(req, res, db);
 });
 
 app.listen(port, () => {

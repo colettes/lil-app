@@ -44,7 +44,7 @@ class AdminEditItem extends Component {
             },
             body: JSON.stringify(this.state.form)
         };
-        fetch('/items2/' + this.id, options)
+        fetch('/items/' + this.id, options)
             .then(() => this.props.history.push('/admin'));
     }
 
