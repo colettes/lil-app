@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import gql from '../client/gql.js';
 
 class Main extends Component {
     constructor(props) {
@@ -14,7 +15,9 @@ class Main extends Component {
         fetch('http://localhost:3000/items')
             .then((res) => res.json())
             .then((json) => this.setState(json));
-    }
+        
+        gql('{ hello }', (result) => console.log(result));
+    };
 
     favoriteItem(itemID, favorited) {
         const options = {
@@ -27,8 +30,6 @@ class Main extends Component {
         };
         fetch('/favorites', options)
             .then(() => this.loadData());
-
-
     }
 
     render() {
