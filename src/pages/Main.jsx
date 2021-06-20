@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import gql from '../client/gql.js';
+import Login from './Login';
 
 class Main extends Component {
     constructor(props) {
@@ -11,12 +12,13 @@ class Main extends Component {
         this.loadData();
     }
 
-    loadData() {
+    loadData(user) {
+        fetch('/me')
+            .then((res) => res.json())
+            .then((json) => this.setState({user: json}));
         fetch('http://localhost:3000/items')
             .then((res) => res.json())
             .then((json) => this.setState(json));
-        
-        gql('{ hello }', (result) => console.log(result));
     };
 
     favoriteItem(itemID, favorited) {
@@ -38,6 +40,7 @@ class Main extends Component {
         return (
             <div className="Main Page">
                 <h1>Lil App</h1>
+                <Login loadData={(user) => this.loadData(user)}/>
                 <ol>
                     {!items && <li>loading</li>}
                     {items && items.map( (item) => (

@@ -1,7 +1,7 @@
 import uuid from 'uuid';
 const userID = '3b63130f-a49b-4556-9373-2abe2b62dd7a';
 
-export const getItems = (db, callback) => {
+export const getItems = (db, userID, callback) => {
     const sql = 'SELECT * FROM items LIMIT 10';
     db.all(sql, (error, items) => {
         if (error) throw error;
@@ -45,7 +45,17 @@ export const deleteItem = (req, res, db) => {
     const sql = "DELETE FROM items WHERE id=$id";
     db.run(sql, params, function (error) {
         if (error) throw error;
-        res.json({ lastID: this.lastID, changes: this.changes })
+        res.json({ lastID: this.lastID, changes: this.changes });
+    });
+}
+
+//WIP
+export const deleteItem2 = (db, id, callback) => {
+    const params = { $id: id };
+    const sql = "DELETE FROM items WHERE id=$id";
+    db.run(sql, params, function (error) {
+        if (error) throw error;
+        callback({ lastID: this.lastID, changes: this.changes });
     });
 }
 
@@ -84,6 +94,15 @@ export const getFavorites = (req, res, db) => {
     db.all(sql, params, function(error, favorites) {
         if (error) throw error;
         res.json({favorites});
+    });
+}
+
+export const getFavorites2 = (db, userID, callback) => {
+    const params = { $user_id: userID }
+    const sql = "SELECT * FROM favorites WHERE user_id = $user_id LIMIT 10";
+    db.all(sql, params, function(error, favorites) {
+        if (error) throw error;
+        callback({favorites});
     });
 }
 
