@@ -24,7 +24,8 @@ app.get('/items', (req, res) => {
 });
 
 app.get('/items/:id', (req, res) => {
-    model.getItem(req, res, db);
+    // model.getItem(req, res, db);
+    model.getItem2(db, req.params.id, (result) => res.json(result));
 });
 
 app.delete('/items/:id', (req, res) => {

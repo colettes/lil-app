@@ -30,6 +30,16 @@ export const getItem = (req, res, db) => {
     });
 }
 
+export const getItem2 = (db, id, callback) => {
+    const params = { $id: id };
+    const sql = "SELECT * FROM items WHERE id=$id";
+    db.all(sql, params, function (error, items) {
+        if (error) throw error;
+        const item = items[0]
+        callback({item: item});
+    });
+}
+
 export const deleteItem = (req, res, db) => {
     const params = { $id: req.params.id };
     const sql = "DELETE FROM items WHERE id=$id";

@@ -7,7 +7,7 @@ const schema = buildSchema(`
     }
 `);
 
-const root = {
+const resolvers = {
     hello: () => {
         return 'Hello world!';
     },
@@ -17,7 +17,7 @@ const root = {
 };
 
 const gql = (query, callback) => {
-    graphql(schema, query, root).then((response) => { 
+    graphql(schema, query, resolvers).then((response) => { 
         callback(response.data);
     });
 };
