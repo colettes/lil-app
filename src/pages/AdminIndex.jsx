@@ -43,6 +43,8 @@ class AdminIndex extends Component {
             items.map(item => (
               <li key={item.id}>
                 {item.title}
+                <br/>
+                {item.artist}
                 <div className="AdminIndex-image">
                   <img src={item.image_url} alt={item.description} />
                 </div>

@@ -9,6 +9,7 @@ class AdminEditItem extends Component {
                 title: '',
                 description: '',
                 url: '',
+                artist: '',
             }
         };
     }
@@ -25,6 +26,7 @@ class AdminEditItem extends Component {
                 title: item.title,
                 description: item.description,
                 url: item.image_url,
+                artist: item.artist,
             }
         });
     }
@@ -62,6 +64,9 @@ class AdminEditItem extends Component {
                     <div>
                         <input type="text" value={form.url} placeholder="Image URL" onChange={(e) => this.updateField('url', e)} />
                     </div>
+                    <div>
+                        <input type="text" value={form.artist} placeholder="Artist" onChange={(e) => this.updateField('artist', e)} />
+                    </div>                    
                     <div>
                         <input type="submit" value="Update" />
                     </div>

@@ -67,7 +67,7 @@ export const createItem = (req, res, db) => {
         $description: req.body.description, 
         $url: req.body.url
     };
-    const sql = "INSERT INTO items (id, title, description, image_url) VALUES ($id, $title, $description, $url)";
+    const sql = "INSERT INTO items (id, title, description, image_url, artist) VALUES ($id, $title, $description, $url, $artist)";
     db.run(sql, params, function(error) {
         if (error) throw error;
         res.json({params});
@@ -79,9 +79,10 @@ export const updateItem = (req, res, db) => {
         $id: req.params.id,
         $title: req.body.title,
         $description: req.body.description,
-        $image_url: req.body.url
+        $image_url: req.body.url,
+        $artist: req.body.artist
     };
-    const sql = "UPDATE items SET title = $title, description = $description, image_url = $image_url WHERE id = $id";
+    const sql = "UPDATE items SET title = $title, description = $description, image_url = $image_url artist = $artist WHERE id = $id";
     db.run(sql, params, function(error) {
         if (error) throw error;
         res.json({});
