@@ -82,7 +82,7 @@ export const updateItem = (req, res, db) => {
         $image_url: req.body.url,
         $artist: req.body.artist
     };
-    const sql = "UPDATE items SET title = $title, description = $description, image_url = $image_url artist = $artist WHERE id = $id";
+    const sql = "UPDATE items SET title = $title, description = $description, image_url = $image_url, artist = $artist WHERE id = $id";
     db.run(sql, params, function(error) {
         if (error) throw error;
         res.json({});
