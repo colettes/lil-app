@@ -65,7 +65,8 @@ export const createItem = (req, res, db) => {
         $id: id, 
         $title: req.body.title, 
         $description: req.body.description, 
-        $url: req.body.url
+        $url: req.body.url,
+        $artist: req.body.artist
     };
     const sql = "INSERT INTO items (id, title, description, image_url, artist) VALUES ($id, $title, $description, $url, $artist)";
     db.run(sql, params, function(error) {
