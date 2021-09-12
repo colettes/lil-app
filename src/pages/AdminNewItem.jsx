@@ -8,6 +8,7 @@ class AdminNewItem extends Component {
                 title: '',
                 description: '',
                 url: '',
+                artist: '',
             }
         };
     }
@@ -45,6 +46,9 @@ class AdminNewItem extends Component {
                     <div>
                         <input type="text" value={form.url} placeholder="Image URL" onChange={(e) => this.updateFormState('url', e)} />
                     </div>
+                    <div>
+                        <input type="text" value={form.artist} placeholder="Artist" onChange={(e) => this.updateFormState('artist', e)} />
+                    </div> 
                     <div>
                         <input type="submit" value="Create" />
                     </div>
