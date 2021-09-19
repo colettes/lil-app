@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-npm start
+npx babel src/index.js --watch --out-file public/js/index.js

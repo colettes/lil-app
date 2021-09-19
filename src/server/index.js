@@ -11,9 +11,10 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const app = express();
 const db = new sqlite3.Database('db/app.db');
-const port = 3001;
+const port = 3000;
 
 app.use(express.json());
+app.use(express.static('public'))
 
 app.use(session({ cookie: { maxAge: 60000 }, secret: '2' }));
 app.use(flash());

@@ -46,6 +46,7 @@ class Main extends Component {
                     {items && items.map( (item) => (
                     <li key={item.id}>
                         {item.title}
+                        <br/>
                         {item.artist}
                         <div>
                             <img src={item.image_url} alt={item.description}/>
