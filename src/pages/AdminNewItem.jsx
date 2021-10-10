@@ -3,20 +3,21 @@ import { useHistory } from "react-router-dom";
 import { cloneDeep, trim } from 'lodash';
 
 function PureAdminNewItem(props) {
+    const { form } = props.state;
     return (
         <div className="AdminNewItem Page">
             <form onSubmit={(e) => props.createItem(e)}>
                 <div>
-                    <input type="text" value={props.state.form.title} placeholder="Title" onChange={(e) => props.updateFormState('title', e)} />
+                    <input type="text" value={form.title} placeholder="Title" onChange={(e) => props.updateFormState('title', e)} />
                 </div>
                 <div>
-                    <input type="text" value={props.state.form.description} placeholder="Description" onChange={(e) => props.updateFormState('description', e)} />
+                    <input type="text" value={form.description} placeholder="Description" onChange={(e) => props.updateFormState('description', e)} />
                 </div>
                 <div>
-                    <input type="text" value={props.state.form.url} placeholder="Image URL" onChange={(e) => props.updateFormState('url', e)} />
+                    <input type="text" value={form.url} placeholder="Image URL" onChange={(e) => props.updateFormState('url', e)} />
                 </div>
                 <div>
-                    <input type="text" value={props.state.form.artist} placeholder="Artist" onChange={(e) => props.updateFormState('artist', e)} />
+                    <input type="text" value={form.artist} placeholder="Artist" onChange={(e) => props.updateFormState('artist', e)} />
                 </div> 
                 <div>
                     <input type="submit" value="Create" />
@@ -65,8 +66,8 @@ function AdminNewItem() {
     return(
         <PureAdminNewItem 
             state={state} 
-            createItem={createItem} 
             updateFormState={updateFormState}
+            createItem={createItem} 
         />
     );
 }
