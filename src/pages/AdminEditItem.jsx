@@ -1,78 +1,83 @@
-import React, { Component } from 'react';
+import React, { Component, useReducer, useEffect } from 'react';
+import { cloneDeep } from 'lodash';
 
-class AdminEditItem extends Component {
-    constructor(props) {
-        super(props);
-        this.id = this.props.match.params.id;
-        this.state = {
-            form: {
-                title: '',
-                description: '',
-                url: '',
-                artist: '',
-            }
-        };
-    }
-
-    componentDidMount() {
-        fetch('/items/' + this.id)
-            .then((res) => res.json())
-            .then((json) => this.updateForm(json.item));
-    }
-
-    updateForm(item) {
-        this.setState({
-            form: {
-                title: item.title,
-                description: item.description,
-                url: item.image_url,
-                artist: item.artist,
-            }
-        });
-    }
-
-    updateField(field, e) {
-        const newForm = Object.assign({}, this.state.form, { [field]: e.target.value });
-        this.setState({ form: newForm });
-    }
-
-    updateItem(e) {
-        e.preventDefault();
-        const options = {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state.form)
-        };
-        fetch('/items/' + this.id, options)
-            .then(() => this.props.history.push('/admin'));
-    }
-
-    render() {
-        const { form } = this.state;
-        return (
-            <div className="AdminNewItem Page">
-                <form onSubmit={(e) => this.updateItem(e)}>
-                    <div>
-                        <input type="text" value={form.title} placeholder="Title" onChange={(e) => this.updateField('title', e)} />
-                    </div>
-                    <div>
-                        <input type="text" value={form.description} placeholder="Description" onChange={(e) => this.updateField('description', e)} />
-                    </div>
-                    <div>
-                        <input type="text" value={form.url} placeholder="Image URL" onChange={(e) => this.updateField('url', e)} />
-                    </div>
-                    <div>
-                        <input type="text" value={form.artist} placeholder="Artist" onChange={(e) => this.updateField('artist', e)} />
-                    </div>                    
-                    <div>
-                        <input type="submit" value="Update" />
-                    </div>
-                </form>
-            </div>
-        );
+const initialState = {
+    form: {
+        title: '',
+        description: '',
+        url: '',
+        artist: '',
     }
 }
+
+function PureAdminEditItem(props) {
+    const { form } = props.state;
+    return (
+        <div className="AdminNewItem Page">
+        <form onSubmit={(e) => props.updateItem(e)}>
+            <div>
+                <input type="text" value={form.title} placeholder="Title" onChange={(e) => props.updateField('title', e)} />
+            </div>
+            <div>
+                <input type="text" value={form.description} placeholder="Description" onChange={(e) => props.updateField('description', e)} />
+            </div>
+            <div>
+                <input type="text" value={form.url} placeholder="Image URL" onChange={(e) => props.updateField('url', e)} />
+            </div>
+            <div>
+                <input type="text" value={form.artist} placeholder="Artist" onChange={(e) => props.updateField('artist', e)} />
+            </div>                    
+            <div>
+                <input type="submit" value="Update" />
+            </div>
+        </form>
+    </div>
+    );
+}
+
+function updateItem(e, state, history, id) {
+    e.preventDefault();
+    const options = {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(state.form)
+    };
+    fetch('/items/' + id, options)
+        .then(() => history.push('/admin'));
+}
+
+function fetchItems(id, dispatch) {
+    fetch('/items/' + id)
+        .then((res) => res.json())
+        .then((json) => dispatch({type: 'updateFormState', fields:json.item}));
+}
+
+function AdminEditItem(props) {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const id = props.match.params.id;
+
+    useEffect(() => {fetchItems(id, dispatch)}, [id]);
+
+    return (
+        <PureAdminEditItem 
+            state={state}
+            updateField={(fieldName, e) => dispatch({type:'updateFormState', fields: {[fieldName]:e.target.value}})} 
+            updateItem={(e) => updateItem(e, state, props.history, id)}/>
+    );
+}
+
+function reducer(oldState, action) {
+    switch(action.type) {
+        case 'updateFormState':
+            const newState = {form: Object.assign({}, oldState.form, action.fields)};
+            return(newState);
+        default:
+            throw new Error();
+    };
+}
+
+
 export default AdminEditItem;
