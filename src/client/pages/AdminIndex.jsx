@@ -1,4 +1,4 @@
-import React, { Component, useReducer, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 
 function PureAdminIndex(props) {
   const { items } = props.state;
@@ -52,7 +52,7 @@ function deleteItem(itemID, dispatch) {
 
 function AdminIndex(props) {
   const [state, dispatch] = useReducer(reducer, {});
-  useEffect(() => {loadData(dispatch)}, [])
+  useEffect(() => {loadData(dispatch)}, []);
 
   return(
     <PureAdminIndex 

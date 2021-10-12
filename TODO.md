@@ -26,3 +26,7 @@ Implement GraphQL endpionts
 Move frontend code into src/client folder
 
 
+composition vs inheritance
+
+
+
