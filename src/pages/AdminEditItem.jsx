@@ -49,7 +49,7 @@ function updateItem(e, state, history, id) {
         .then(() => history.push('/admin'));
 }
 
-function fetchItems(id, dispatch) {
+function fetchItem(id, dispatch) {
     fetch('/items/' + id)
         .then((res) => res.json())
         .then((json) => dispatch({type: 'updateFormState', fields:json.item}));
@@ -59,7 +59,7 @@ function AdminEditItem(props) {
     const [state, dispatch] = useReducer(reducer, initialState);
     const id = props.match.params.id;
 
-    useEffect(() => {fetchItems(id, dispatch)}, [id]);
+    useEffect(() => {fetchItem(id, dispatch)}, [id]);
 
     return (
         <PureAdminEditItem 
