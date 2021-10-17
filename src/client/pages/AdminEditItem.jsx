@@ -22,7 +22,7 @@ function PureAdminEditItem(props) {
                 <input type="text" value={form.description} placeholder="Description" onChange={(e) => props.updateField('description', e)} />
             </div>
             <div>
-                <input type="text" value={form.url} placeholder="Image URL" onChange={(e) => props.updateField('url', e)} />
+                <input type="text" value={form.image_url} placeholder="Image URL" onChange={(e) => props.updateField('image_url', e)} />
             </div>
             <div>
                 <input type="text" value={form.artist} placeholder="Artist" onChange={(e) => props.updateField('artist', e)} />
@@ -52,7 +52,7 @@ function updateItem(e, state, history, id) {
 function fetchItem(id, dispatch) {
     fetch('/items/' + id)
         .then((res) => res.json())
-        .then((json) => dispatch({type: 'updateFormState', fields:json.item}));
+        .then((json) => dispatch({type: 'updateFormState', fields: json.item}));
 }
 
 function AdminEditItem(props) {
