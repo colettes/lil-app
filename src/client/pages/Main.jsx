@@ -1,14 +1,19 @@
 import React, { Component, useEffect, useReducer } from "react";
 import gql from "../gql.js";
 import Login from "./Login";
+import { isEmpty } from "lodash";
 
 function PureMain(props) {
   const { items } = props.state;
+  console.log(props);
+  const loggedIn = !isEmpty(props.state.user);
+  console.log(loggedIn);
+
 
   return (
     <div className="Main Page">
       <h1>Lil App</h1>
-      <Login loadData={() => props.loadData()} />
+      <Login loadData={() => props.loadData()} loggedIn={loggedIn}/>
       <ol>
         {!items && <li>loading</li>}
         {items &&
@@ -52,9 +57,10 @@ function favoriteItem(itemID, favorited, dispatch) {
   };
   fetch("/favorites", options).then(() => loadData(dispatch));
 }
+const initialState = { user: {} }; 
 
 function Main() {
-  const [state, dispatch] = useReducer(reducer, {});
+  const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {loadData(dispatch)}, []);
 
   return (

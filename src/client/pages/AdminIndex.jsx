@@ -54,7 +54,7 @@ function AdminIndex(props) {
   const [state, dispatch] = useReducer(reducer, {});
   useEffect(() => {loadData(dispatch)}, []);
 
-  return(
+  return (
     <PureAdminIndex 
       state={state} 
       editItem={(itemID) => editItem(itemID, props.history)}

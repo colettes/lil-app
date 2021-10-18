@@ -32,6 +32,11 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login'
 }));
 
+app.post('/logout', function(req, res){
+    req.logout();
+    res.json({});
+  });
+
 passport.serializeUser(function (user, done) {
     done(null, user);
 });
