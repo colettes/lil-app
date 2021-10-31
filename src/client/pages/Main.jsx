@@ -9,11 +9,10 @@ function PureMain(props) {
   const loggedIn = !isEmpty(props.state.user);
   console.log(loggedIn);
 
-
   return (
     <div className="Main Page">
       <h1>Lil App</h1>
-      <Login loadData={() => props.loadData()} loggedIn={loggedIn}/>
+      <Login loadData={() => props.loadData()} loggedIn={loggedIn} />
       <ol>
         {!items && <li>loading</li>}
         {items &&
@@ -27,7 +26,8 @@ function PureMain(props) {
               <div>
                 <FavoriteButton
                   onClick={() => props.favoriteItem(item.id, item.favorited)}
-                  favorited={item.favorited}/>
+                  favorited={item.favorited}
+                />
               </div>
             </li>
           ))}
@@ -40,10 +40,10 @@ function PureMain(props) {
 function loadData(dispatch) {
   fetch("/me")
     .then((res) => res.json())
-    .then((json) => dispatch({ type: 'receiveUser', user: json}));
+    .then((json) => dispatch({ type: "receiveUser", user: json }));
   fetch("http://localhost:3000/items")
     .then((res) => res.json())
-    .then((json) => dispatch({ type: 'receiveItems',  items: json.items}));
+    .then((json) => dispatch({ type: "receiveItems", items: json.items }));
 }
 
 function favoriteItem(itemID, favorited, dispatch) {
@@ -57,29 +57,35 @@ function favoriteItem(itemID, favorited, dispatch) {
   };
   fetch("/favorites", options).then(() => loadData(dispatch));
 }
-const initialState = { user: {} }; 
+export const initialState = { user: {} };
 
-function Main() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  useEffect(() => {loadData(dispatch)}, []);
+function Main(props) {
+  const { state, dispatch } = props;
+  // const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    loadData(dispatch);
+  }, []);
 
   return (
     <PureMain
       state={state}
       loadData={() => loadData(dispatch)}
-      favoriteItem={(itemID, itemFavorited) => favoriteItem(itemID, itemFavorited, dispatch)} />
-  )
+      favoriteItem={(itemID, itemFavorited) =>
+        favoriteItem(itemID, itemFavorited, dispatch)
+      }
+    />
+  );
 }
 
-function reducer(oldState, action) {
-  switch(action.type) {
-    case 'receiveUser':
-      return(Object.assign({}, oldState, {user: action.user}));
-    case 'receiveItems':
-      return(Object.assign({}, oldState, {items: action.items}));
+export function reducer(oldState, action) {
+  switch (action.type) {
+    case "receiveUser":
+      return Object.assign({}, oldState, { user: action.user });
+    case "receiveItems":
+      return Object.assign({}, oldState, { items: action.items });
     default:
       throw new Error();
-  };
+  }
 }
 
 const FavoriteButton = (props) => {

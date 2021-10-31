@@ -50,6 +50,17 @@ function deleteItem(itemID, dispatch) {
   }
 }
 
+function reducer(oldState, action) {
+  console.log(action);
+  switch(action.type) {
+    case 'receiveItems':
+      const newState = Object.assign({}, oldState, {items: action.json.items});
+      return(newState);
+    default:
+      throw new Error();
+  };
+}
+
 function AdminIndex(props) {
   const [state, dispatch] = useReducer(reducer, {});
   useEffect(() => {loadData(dispatch)}, []);
@@ -60,17 +71,6 @@ function AdminIndex(props) {
       editItem={(itemID) => editItem(itemID, props.history)}
       deleteItem={(itemID) => deleteItem(itemID, dispatch)}/>
   );
-}
-
-function reducer(oldState, action) {
-  console.log(action);
-  switch(action.type) {
-    case 'receiveItems':
-      const newState = Object.assign({}, oldState, {items: action.json.items});
-      return(newState);
-    default:
-      throw new Error();
-  };
 }
 
 export default AdminIndex;
