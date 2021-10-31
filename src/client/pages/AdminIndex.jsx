@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect } from "react";
 
-function PureAdminIndex(props) {
+function PurePage(props) {
   const { items } = props.state;
 
   return (
@@ -19,7 +19,9 @@ function PureAdminIndex(props) {
               </div>
               <div className="AdminIndex-button">
                 <button onClick={() => props.editItem(item.id)}>Edit</button>
-                <button onClick={() => props.deleteItem(item.id)}>Delete</button>
+                <button onClick={() => props.deleteItem(item.id)}>
+                  Delete
+                </button>
               </div>
             </li>
           ))}
@@ -31,7 +33,9 @@ function PureAdminIndex(props) {
 function loadData(dispatch) {
   let response = fetch("/items");
   response = response.then((res) => res.json());
-  response = response.then((json) => dispatch({type: 'receiveItems', json}));
+  response = response.then((json) =>
+    dispatch({ type: "adminIndexReceiveItems", json })
+  );
 }
 
 function editItem(itemID, history) {
@@ -50,27 +54,32 @@ function deleteItem(itemID, dispatch) {
   }
 }
 
-function reducer(oldState, action) {
-  console.log(action);
-  switch(action.type) {
-    case 'receiveItems':
-      const newState = Object.assign({}, oldState, {items: action.json.items});
-      return(newState);
+export function reducer(oldState, action) {
+  switch (action.type) {
+    case "adminIndexReceiveItems":
+      const newState = Object.assign({}, oldState, {
+        items: action.json.items,
+      });
+      return newState;
     default:
-      throw new Error();
-  };
+      return oldState;
+  }
 }
 
-function AdminIndex(props) {
-  const [state, dispatch] = useReducer(reducer, {});
-  useEffect(() => {loadData(dispatch)}, []);
+export const initialState = {};
+
+export function Page(props) {
+  const { state, dispatch } = props;
+
+  useEffect(() => {
+    loadData(dispatch);
+  }, []);
 
   return (
-    <PureAdminIndex 
-      state={state} 
+    <PurePage
+      state={state}
       editItem={(itemID) => editItem(itemID, props.history)}
-      deleteItem={(itemID) => deleteItem(itemID, dispatch)}/>
+      deleteItem={(itemID) => deleteItem(itemID, dispatch)}
+    />
   );
 }
-
-export default AdminIndex;

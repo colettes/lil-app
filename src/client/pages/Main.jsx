@@ -3,11 +3,9 @@ import gql from "../gql.js";
 import Login from "./Login";
 import { isEmpty } from "lodash";
 
-function PureMain(props) {
+function PurePage(props) {
   const { items } = props.state;
-  console.log(props);
   const loggedIn = !isEmpty(props.state.user);
-  console.log(loggedIn);
 
   return (
     <div className="Main Page">
@@ -40,10 +38,10 @@ function PureMain(props) {
 function loadData(dispatch) {
   fetch("/me")
     .then((res) => res.json())
-    .then((json) => dispatch({ type: "receiveUser", user: json }));
+    .then((json) => dispatch({ type: "mainReceiveUser", user: json }));
   fetch("http://localhost:3000/items")
     .then((res) => res.json())
-    .then((json) => dispatch({ type: "receiveItems", items: json.items }));
+    .then((json) => dispatch({ type: "mainReceiveItems", items: json.items }));
 }
 
 function favoriteItem(itemID, favorited, dispatch) {
@@ -59,7 +57,7 @@ function favoriteItem(itemID, favorited, dispatch) {
 }
 export const initialState = { user: {} };
 
-function Main(props) {
+export function Page(props) {
   const { state, dispatch } = props;
   // const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
@@ -67,7 +65,7 @@ function Main(props) {
   }, []);
 
   return (
-    <PureMain
+    <PurePage
       state={state}
       loadData={() => loadData(dispatch)}
       favoriteItem={(itemID, itemFavorited) =>
@@ -79,12 +77,12 @@ function Main(props) {
 
 export function reducer(oldState, action) {
   switch (action.type) {
-    case "receiveUser":
+    case "mainReceiveUser":
       return Object.assign({}, oldState, { user: action.user });
-    case "receiveItems":
+    case "mainReceiveItems":
       return Object.assign({}, oldState, { items: action.items });
     default:
-      throw new Error();
+      return oldState;
   }
 }
 
@@ -93,5 +91,3 @@ const FavoriteButton = (props) => {
   const text = favorited ? "Unfavorite" : "Favorite";
   return <button onClick={onClick}>{text}</button>;
 };
-
-export default Main;
