@@ -38,6 +38,7 @@ function loadData(dispatch) {
   );
 }
 
+// TODO: history is undefined
 function editItem(itemID, history) {
   history.push("/admin/items/" + itemID + "/edit");
 }

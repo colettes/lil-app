@@ -2,7 +2,7 @@ import React, { Component, useReducer } from "react";
 import { useHistory } from "react-router-dom";
 import { cloneDeep, trim } from "lodash";
 
-function PureAdminNewItem(props) {
+export function PurePage(props) {
   const { form } = props.state;
   return (
     <div className="AdminNewItem Page">
@@ -47,7 +47,7 @@ function PureAdminNewItem(props) {
   );
 }
 
-const initialState = {
+export const initialState = {
   form: {
     title: "",
     description: "",
@@ -56,14 +56,14 @@ const initialState = {
   },
 };
 
-function reducer(oldState, action) {
+export function reducer(oldState, action) {
   switch (action.type) {
     case "updateFormState":
       const newState = cloneDeep(oldState);
       newState.form[action.fieldName] = trim(action.fieldValue);
       return newState;
     default:
-      throw new Error("Unknown action type!");
+      return oldState;
   }
 }
 function useAdminNewItem() {
@@ -82,11 +82,11 @@ function useAdminNewItem() {
     createItem: (e) => createItem(history, state, e),
   };
 }
-function AdminNewItem() {
+export function Page() {
   const { state, updateFormState, createItem } = useAdminNewItem();
 
   return (
-    <PureAdminNewItem
+    <PurePage
       state={state}
       updateFormState={updateFormState}
       createItem={createItem}
@@ -106,5 +106,3 @@ function createItem(history, state, e) {
   };
   fetch("/items", options).then(() => history.push("/admin"));
 }
-
-export default AdminNewItem;
