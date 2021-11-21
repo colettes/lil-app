@@ -82,6 +82,7 @@ function useAdminNewItem() {
     createItem: (e) => createItem(history, state, e),
   };
 }
+
 export function Page() {
   const { state, updateFormState, createItem } = useAdminNewItem();
 

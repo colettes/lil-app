@@ -6,7 +6,7 @@ import * as Main from './pages/Main';
 import * as AdminIndex from './pages/AdminIndex';
 import * as AdminNewItem from './pages/AdminNewItem';
 import * as AdminEditItem from './pages/AdminEditItem';
-
+import { SideBar } from './components/SideBar';
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -14,10 +14,10 @@ export default function App() {
   return (
     <div className="App">
       <Router>
-        <Route exact path="/" render={() => <Main.Page state={state.main} dispatch={dispatch} />} />
-        <Route exact path="/admin" render={() => <AdminIndex.Page state={state.adminIndex} dispatch={dispatch} />} />
-        <Route exact path="/admin/items/new" render={() => <AdminNewItem state={state.adminNewItem} dispatch={dispatch} />} />
-        <Route exact path="/admin/items/:id/edit" render={() => <AdminEditItem state={state.adminEditItem} dispatch={dispatch} />} />
+        <Route exact path="/" render={(props) => <Main.Page state={state.main} dispatch={dispatch} {...props} />} />
+        <Route exact path="/admin" render={(props) => <AdminIndex.Page state={state.adminIndex} dispatch={dispatch} {...props} />} />
+        <Route exact path="/admin/items/new" render={(props) => <AdminNewItem.Page state={state.adminEditItem} dispatch={dispatch} {...props} />} />
+        <Route exact path="/admin/items/:id/edit" render={(props) => <AdminEditItem.Page state={state.adminEditItem} dispatch={dispatch} {...props} />} />
       </Router>
     </div>
   );
@@ -37,7 +37,7 @@ function reducer(oldState, action) {
     adminNewItem: AdminNewItem.reducer(oldState.adminNewItem, action),
     adminEditItem: AdminEditItem.reducer(oldState.adminEditItem, action)
   };
-  console.log(newState, 1)
+  console.log(newState)
   return (newState);
 }
 
